@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import HeartIcon from "../icons/HeartIcon.vue";
+
+const props = defineProps({
+	movieTitle: String,
+});
 </script>
 
 <template>
@@ -17,19 +21,15 @@ import HeartIcon from "../icons/HeartIcon.vue";
 				src="https://images-cdn.ubuy.co.in/651b073ba9e01902321bb1d5-netflix-stranger-things-one-sheet-wall.jpg"
 				alt="Stranger Things Poster"
 				width="240"
-				height="320"
+				height="360"
 				class="movie-card__poster-img"
 			/>
 		</div>
 		<p class="text-xs text-gray-400 fw-bold">USA, 2016 - Current</p>
-		<p class="text-lg text-gray-900 fw-bold">Stranger Things</p>
+		<p class="text-lg text-gray-900 fw-bold">{{ props.movieTitle }}</p>
 		<section class="movie-card__ratings">
 			<div class="movie-card__ratings-item">
-				<img
-          src="../../assets/img/IMDb.png"
-          alt="IMDb Logo"
-          height="18"
-        />
+				<img src="../../assets/img/IMDb.png" alt="IMDb Logo" height="18" />
 				<span class="text-xs text-gray-900">86.0 / 100</span>
 			</div>
 			<div class="movie-card__ratings-item">
