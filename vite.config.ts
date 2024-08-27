@@ -57,7 +57,7 @@ export default defineConfig({
 						},
 					},
 					{
-						urlPattern: /^\/api\/omdb.*/i,
+						urlPattern: /^\/api\/proxy.*/i,
 						handler: async ({ request }) => {
 							const cache = await caches.open("omdb-api-cache");
 							const cachedResponse = await cache.match(request);
