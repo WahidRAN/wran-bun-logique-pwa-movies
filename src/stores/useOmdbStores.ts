@@ -7,7 +7,7 @@ import { MovieObjType } from "../types/OmdbApiTypes";
 
 export const useOmdbStore = defineStore("omdbStore", () => {
 	const omdbService = new OmdbApiService();
-	const tmdbService = new TmdbApiService()
+	const tmdbService = new TmdbApiService();
 
 	const getMovieDetailByTitle = async (
 		title: string
@@ -20,28 +20,23 @@ export const useOmdbStore = defineStore("omdbStore", () => {
 			.then(({ data }) => data as MovieObjType);
 	};
 
-	const curatedFeaturedMovies = ref([
-		"Stranger Things",
-		"Batman Begins",
-		"Into The Spider Verse",
-		"Dunkirk",
-	]);
-	
-	const featuredMoviesList = ref<MovieObjType[]>([]);
-	
-	const featuredMovies = computed(() => featuredMoviesList.value)
-	
+	const curatedFeaturedMovies = ref(["Stranger Things"]);
+
+	const featuredMoviesList = ref<any>([]);
+
+	const featuredMovies = computed(() => featuredMoviesList.value);
+
 	const fetchFeaturedMovies = async () => {
 		const featuredResult: MovieObjType[] = await Promise.all(
-			curatedFeaturedMovies.value.map(getMovieDetailByTitle)
+			curatedFeaturedMovies.value.map((movie) => getMovieDetailByTitle(movie))
 		);
-		tmdbService.getMovieById("/movie/157336").then(({data}) => console.log(data))
+		tmdbService.getMovieById("/movie/157336").then(({ data }) => data);
 		featuredMoviesList.value = featuredResult;
 	};
 
 	return {
 		getMovieDetailByTitle,
 		fetchFeaturedMovies,
-		featuredMovies
+		featuredMovies,
 	};
 });

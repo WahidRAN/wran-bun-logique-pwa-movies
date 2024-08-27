@@ -7,7 +7,7 @@ class ApiService {
 	private apikey: string;
 
 	constructor() {
-		this.baseURL = "https://www.omdbapi.com/";
+		this.baseURL = "/api/proxy";
 		this.apikey = "b6240e04";
 		this.axiosInstance = axios.create({
 			baseURL: this.baseURL,
