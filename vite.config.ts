@@ -57,55 +57,6 @@ export default defineConfig({
 						},
 					},
 					{
-						urlPattern: /^\/api\/proxy.*/i,
-						handler: async ({ request }) => {
-							const cache = await caches.open("omdb-api-cache");
-							const cachedResponse = await cache.match(request);
-
-							if (cachedResponse) {
-								console.log("Serving from cache:", request.url);
-								return cachedResponse;
-							}
-
-							const response = await fetch(request);
-							if (
-								response &&
-								response.status === 200 &&
-								response.type === "cors"
-							) {
-								await cache.put(request, response.clone());
-
-								// Manually check if the request was cached
-								const checkCached = await cache.match(request);
-								if (checkCached) {
-									console.log("Successfully cached:", request.url);
-								} else {
-									console.log("Failed to cache:", request.url);
-								}
-							} else {
-								console.error(
-									"Response not cacheable:",
-									response.status,
-									response.type
-								);
-							}
-							return response;
-						},
-						options: {
-							cacheName: "omdb-api-cache",
-							expiration: {
-								maxEntries: 50, // Adjust this based on your needs
-								maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-							},
-							cacheableResponse: {
-								statuses: [0, 200],
-								headers: {
-									"Access-Control-Allow-Origin": "*",
-								},
-							},
-						},
-					},
-					{
 						urlPattern: /^https:\/\/api\.themoviedb\.org\/3\/.*/i,
 						handler: "StaleWhileRevalidate",
 						options: {

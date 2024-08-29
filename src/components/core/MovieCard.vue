@@ -9,10 +9,15 @@ const props = defineProps({
 <template>
 	<div class="movie-card">
 		<div class="movie-card__poster">
-			<section class="movie-card__poster-header">
-				<div class="movie-card__header-box text-xs text-gray-900 fw-bold">
+			<section
+				class="movie-card__poster-header"
+				:style="{
+					justifyContent: props.movieTitle ? 'flex-end' : 'space-between',
+				}"
+			>
+				<!-- <div class="movie-card__header-box text-xs text-gray-900 fw-bold">
 					TV SERIES
-				</div>
+				</div> -->
 				<div class="movie-card__header-box movie-card__header-box--icon">
 					<HeartIcon class="movie-card__header-icon" />
 				</div>
@@ -20,28 +25,22 @@ const props = defineProps({
 			<img
 				src="https://images-cdn.ubuy.co.in/651b073ba9e01902321bb1d5-netflix-stranger-things-one-sheet-wall.jpg"
 				alt="Stranger Things Poster"
-				width="240"
-				height="360"
 				class="movie-card__poster-img"
 			/>
 		</div>
-		<p class="text-xs text-gray-400 fw-bold">USA, 2016 - Current</p>
+		<p class="text-xs text-gray-400 fw-bold movie-card__meta">
+			USA, 2016 - Current
+		</p>
 		<p class="text-lg text-gray-900 fw-bold">{{ props.movieTitle }}</p>
 		<section class="movie-card__ratings">
 			<div class="movie-card__ratings-item">
 				<img src="../../assets/img/IMDb.png" alt="IMDb Logo" height="18" />
 				<span class="text-xs text-gray-900">86.0 / 100</span>
 			</div>
-			<div class="movie-card__ratings-item">
-				<img
-					src="../../assets/img/RottenTomato.png"
-					alt="Rotten Tomatoes Logo"
-					height="18"
-				/>
-				<span class="text-xs text-gray-900">97%</span>
-			</div>
 		</section>
-		<p class="text-xs text-gray-400 fw-bold">Action, Adventure / Horror</p>
+		<p class="text-xs text-gray-400 fw-bold movie-card__meta">
+			Action, Adventure / Horror
+		</p>
 	</div>
 </template>
 
@@ -49,8 +48,7 @@ const props = defineProps({
 .movie-card {
 	display: flex;
 	flex-direction: column;
-	gap: 0.75rem;
-	max-width: 240px;
+	gap: 0.5rem;
 }
 .movie-card__poster {
 	position: relative;
@@ -62,7 +60,7 @@ const props = defineProps({
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	padding: 1rem 1rem 0;
+	padding: 0.75rem 0.75rem 0;
 }
 .movie-card__header-box {
 	border-radius: 12px;
@@ -72,19 +70,23 @@ const props = defineProps({
 }
 .movie-card__header-box--icon {
 	cursor: pointer;
-	padding: 6px;
+	padding: 4px;
 	border-radius: 100%;
 }
 .movie-card__header-icon {
 	display: block;
-	width: 24px;
-	height: 24px;
+	width: 16px;
+	height: 16px;
 	fill: var(--gray-300);
 }
 
 .movie-card__poster-img {
 	display: block;
 	object-fit: cover;
+	width: 100%;
+}
+.movie-card__meta {
+	display: none;
 }
 .movie-card__ratings {
 	display: flex;
@@ -93,7 +95,32 @@ const props = defineProps({
 }
 .movie-card__ratings-item {
 	display: flex;
-	gap: 10px;
+	gap: 4px;
 	align-items: center;
+}
+
+@media (min-width: 376px) {
+	.movie-card__header-box--icon {
+		padding: 6px;
+	}
+	.movie-card__header-icon {
+		width: 24px;
+		height: 24px;
+	}
+}
+
+@media (min-width: 768px) {
+	.movie-card {
+		gap: 0.75rem;
+	}
+	.movie-card__poster-header {
+		padding: 1rem 1rem 0;
+	}
+	.movie-card__meta {
+		display: block;
+	}
+	.movie-card__ratings-item {
+		gap: 10px;
+	}
 }
 </style>

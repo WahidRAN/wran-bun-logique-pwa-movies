@@ -9,8 +9,8 @@ const props = defineProps({
 <template>
 	<section class="content-section">
 		<div class="content-header">
-			<h2 class="text-4xl">{{ props.contentTitle }}</h2>
-			<span class="text-lg text-rose-700 content-header__more"
+			<h2 class="text-3xl md:text-4xl">{{ props.contentTitle }}</h2>
+			<span class="text-base md:text-lg text-rose-700 content-header__more"
 				>See more <ChevronRightIcon class="content-header__more-icon"
 			/></span>
 		</div>
@@ -24,7 +24,7 @@ const props = defineProps({
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 40px;
+	margin-bottom: 16px;
 }
 .content-header__more {
 	cursor: pointer;
@@ -34,5 +34,23 @@ const props = defineProps({
 }
 .content-header__more-icon {
 	stroke: var(--rose-700);
+	width: 20px;
+	height: 20px;
+}
+
+@media (min-width: 768px) {
+	.content-header {
+		margin-bottom: 24px;
+	}
+	.content-header__more-icon {
+		width: 24px;
+		height: 24px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.content-header {
+		margin-bottom: 40px;
+	}
 }
 </style>
