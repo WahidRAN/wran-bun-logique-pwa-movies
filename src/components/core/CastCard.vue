@@ -1,16 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps<{
+	castName: string;
+	castProfilePath: string;
+}>();
+</script>
 
 <template>
 	<div class="cast-card">
-		<div class="cast-card__poster">
+		<div>
 			<img
-				src="../../assets/img/keanu.png"
-				alt="Keanu Reeves"
-				width="240"
-				height="360"
+				:src="`https://image.tmdb.org/t/p/w342/${props.castProfilePath}`"
+				:alt="props.castName"
+				class="cast-card__poster"
 			/>
 		</div>
-		<h2 class="text-lg fw-bold">Keanu Reeves</h2>
+		<h2 class="text-lg fw-bold">{{ props.castName }}</h2>
 	</div>
 </template>
 
@@ -18,6 +22,9 @@
 .cast-card {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 0.5rem;
+}
+.cast-card__poster {
+	width: 100%;
 }
 </style>

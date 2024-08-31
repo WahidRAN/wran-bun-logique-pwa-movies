@@ -2,12 +2,17 @@
 import { ref } from "vue";
 import PlayIcon from "../icons/PlayIcon.vue";
 
-const videoVisible = ref(false);
-const videoKey = "SUXWAEX2jlg";
-const youtubeUrl = ref(`https://www.youtube.com/embed/${videoKey}`);
+const props = defineProps<{
+	videoTitle: string;
+	videoThumbnail: string;
+	videoUrlKey: string;
+}>();
 
+const videoVisible = ref(false);
+
+const youtubeUrl = ref("");
 const showVideo = () => {
-	youtubeUrl.value += "?autoplay=1";
+	youtubeUrl.value = `https://www.youtube.com/embed/${props.videoUrlKey}?autoplay=1`;
 	videoVisible.value = true;
 };
 </script>
@@ -15,13 +20,18 @@ const showVideo = () => {
 <template>
 	<div class="video-card">
 		<div class="video-wrapper">
-			<div v-if="!videoVisible" class="overlay" @click="showVideo">
+			<div
+				v-if="!videoVisible"
+				class="overlay"
+				:style="{
+					backgroundImage: `url(https://image.tmdb.org/t/p/w780/${props.videoThumbnail})`,
+				}"
+				@click="showVideo()"
+			>
 				<PlayIcon class="video__play-icon" />
 			</div>
 			<iframe
 				v-if="videoVisible"
-				width="560"
-				height="315"
 				:src="youtubeUrl"
 				frameborder="0"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -29,7 +39,9 @@ const showVideo = () => {
 			>
 			</iframe>
 		</div>
-		<h2 class="text-lg text-gray-900 fw-bold">Lamb (2021) Trailer</h2>
+		<h2 class="text-lg text-gray-900 fw-bold">
+			{{ props.videoTitle }} | Trailer
+		</h2>
 	</div>
 </template>
 
@@ -38,11 +50,11 @@ const showVideo = () => {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+	width: 100%;
 }
 .video-wrapper {
 	position: relative;
-	width: 560px; /* Adjust width as needed */
-	height: 315px; /* Adjust height as needed */
+	height: 240px;
 }
 
 .overlay {
@@ -56,6 +68,8 @@ const showVideo = () => {
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
+	background-size: cover;
+	background-repeat: no-repeat;
 	z-index: 10;
 }
 
@@ -74,7 +88,7 @@ iframe {
 }
 .video__play-icon {
 	stroke: white;
-  stroke-width: 1;
+	stroke-width: 1;
 	width: 64px;
 	height: 64px;
 }

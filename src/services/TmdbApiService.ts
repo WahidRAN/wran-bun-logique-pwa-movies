@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { MovieParamsBySearch } from "../types/OmdbApiTypes";
+import { TmdbApiParams } from "../types/TmdbApiTypes";
 
 class ApiService {
 	private axiosInstance: AxiosInstance;
@@ -21,18 +21,17 @@ class ApiService {
 		});
 	}
 
-	// Method to perform a GET request
-	public async getMovieById<T>(
+	public async get<T>(
 		endpoint: string,
-		params?: any,
+		params?: TmdbApiParams,
 		config?: AxiosRequestConfig
 	): Promise<AxiosResponse<T>> {
 		try {
 			const response = await this.axiosInstance.get<T>(endpoint, {
 				...config,
 				params: {
-					...this.axiosInstance.defaults.params, // Include default params
-					...params, // Merge with any additional params
+					...this.axiosInstance.defaults.params,
+					...params,
 				},
 			});
 			return response;
@@ -41,26 +40,6 @@ class ApiService {
 		}
 	}
 
-	public async getMovieBySearch<T>(
-		endpoint: string,
-		params?: MovieParamsBySearch,
-		config?: AxiosRequestConfig
-	): Promise<AxiosResponse<T>> {
-		try {
-			const response = await this.axiosInstance.get<T>(endpoint, {
-				...config,
-				params: {
-					...this.axiosInstance.defaults.params, // Include default params
-					...params, // Merge with any additional params
-				},
-			});
-			return response;
-		} catch (error) {
-			throw new Error(this.handleError(error));
-		}
-	}
-
-	// Method to handle errors
 	private handleError(error: any): string {
 		if (axios.isAxiosError(error) && error.response) {
 			return `Error: ${error.response.status} ${error.response.statusText}`;

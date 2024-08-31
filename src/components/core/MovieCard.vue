@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import HeartIcon from "../icons/HeartIcon.vue";
 
-const props = defineProps({
-	movieTitle: String,
-});
+const getReleaseYear = (releaseDate: string) =>
+	new Date(releaseDate).getFullYear();
+
+const props = defineProps<{
+	movieReleaseDate: string;
+	movieTitle: string;
+	movieType: string;
+	movieGenre: string;
+	moviePoster: string;
+	movieRating: number;
+}>();
 </script>
 
 <template>
@@ -12,34 +20,42 @@ const props = defineProps({
 			<section
 				class="movie-card__poster-header"
 				:style="{
-					justifyContent: props.movieTitle ? 'flex-end' : 'space-between',
+					justifyContent:
+						props.movieType === 'tv' ? 'space-between' : 'flex-end',
 				}"
 			>
-				<!-- <div class="movie-card__header-box text-xs text-gray-900 fw-bold">
+				<div
+					v-if="props.movieType === 'tv'"
+					class="movie-card__header-box movie-card__header-movie-type text-xs text-gray-900 fw-bold"
+				>
 					TV SERIES
-				</div> -->
+				</div>
 				<div class="movie-card__header-box movie-card__header-box--icon">
 					<HeartIcon class="movie-card__header-icon" />
 				</div>
 			</section>
 			<img
-				src="https://images-cdn.ubuy.co.in/651b073ba9e01902321bb1d5-netflix-stranger-things-one-sheet-wall.jpg"
-				alt="Stranger Things Poster"
+				:src="`https://image.tmdb.org/t/p/w342/${props.moviePoster}`"
+				:alt="props.movieTitle"
 				class="movie-card__poster-img"
+				loading="lazy"
 			/>
+			<div class="swiper-lazy-preloader"></div>
 		</div>
 		<p class="text-xs text-gray-400 fw-bold movie-card__meta">
-			USA, 2016 - Current
+			{{ getReleaseYear(props.movieReleaseDate) }}
 		</p>
 		<p class="text-lg text-gray-900 fw-bold">{{ props.movieTitle }}</p>
 		<section class="movie-card__ratings">
 			<div class="movie-card__ratings-item">
 				<img src="../../assets/img/IMDb.png" alt="IMDb Logo" height="18" />
-				<span class="text-xs text-gray-900">86.0 / 100</span>
+				<span class="text-xs text-gray-900"
+					>{{ Math.round(props.movieRating * 100) / 10 }} / 100</span
+				>
 			</div>
 		</section>
 		<p class="text-xs text-gray-400 fw-bold movie-card__meta">
-			Action, Adventure / Horror
+			{{ props.movieGenre }}
 		</p>
 	</div>
 </template>
@@ -68,10 +84,14 @@ const props = defineProps({
 	background: rgba(243, 244, 246, 0.5);
 	backdrop-filter: blur(2px);
 }
+.movie-card__header-movie-type {
+	filter: drop-shadow(0 0 0.15rem cyan);
+}
 .movie-card__header-box--icon {
 	cursor: pointer;
 	padding: 4px;
 	border-radius: 100%;
+	filter: drop-shadow(0 2px 0.15rem var(--rose-800));
 }
 .movie-card__header-icon {
 	display: block;
